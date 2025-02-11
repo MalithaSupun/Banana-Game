@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import HomePageBg from "../assets/MainMenuBg.png"; // Import background image
 import InstructionPage from "./InstructionsPage"; // Import the instruction page
+import LeaderBoardPage from "./LeaderBoardPage"; // Import the Leaderboard page
 import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
 
 function MainMenuPage() {
-  const [showInstruction, setShowInstruction] = useState(false);
+  const [activePage, setActivePage] = useState(null); // Manage which page to show
 
   return (
     <div
@@ -27,12 +28,15 @@ function MainMenuPage() {
 
         {/* Buttons */}
         <div className="flex flex-col mt-6 w-full space-y-4">
-          <button className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full">
+          <button
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+            onClick={() => setActivePage("leaderboard")} // Show Leaderboard Page
+          >
             Leader board
           </button>
           <button
             className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
-            onClick={() => setShowInstruction(true)} // Show Instruction Page
+            onClick={() => setActivePage("instruction")} // Show Instruction Page
           >
             Instruction
           </button>
@@ -47,9 +51,11 @@ function MainMenuPage() {
         </div>
       </div>
 
-      {/* Instruction Page Display (Right Side) */}
+      {/* Dynamic Content Area (Right Side) */}
       <div className="flex-1 p-8">
-        {showInstruction ? (
+        {activePage === "leaderboard" ? (
+          <LeaderBoardPage />
+        ) : activePage === "instruction" ? (
           <InstructionPage />
         ) : (
           <p className="text-black text-xl">Welcome to the Main Menu!</p>
