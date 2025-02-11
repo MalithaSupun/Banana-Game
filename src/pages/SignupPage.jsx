@@ -3,8 +3,10 @@ import LoginBg from "../assets/LoginBg.png";
 import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
+      const navigate = useNavigate();
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen w-full bg-cover bg-center"
@@ -54,7 +56,9 @@ function SignupPage() {
           className="w-full p-3 rounded-lg bg-[#A8E890] text-[#4E2500] placeholder-[#4E2500] text-lg shadow-md font-dancingScript"
         />
 
-        <button className="bg-[#77C15E] text-[#4E2500] font-bold text-xl px-6 py-3 rounded-lg mt-6 shadow-lg font-dancingScript">
+        <button
+        onClick={() => navigate("/mainmenu")}
+         className="bg-[#77C15E] text-[#4E2500] font-bold text-xl px-6 py-3 rounded-lg mt-6 shadow-lg font-dancingScript">
           Sign-Up
         </button>
 

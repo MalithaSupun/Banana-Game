@@ -3,6 +3,8 @@ import StartingPage from "./pages/StartingPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import MainMenuPage from "./pages/MainMenuPage";
+import InstructionsPage from "./pages/InstructionsPage";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/mainmenu" element={<MainMenuPage />} />
+        <Route path="/instructions" element={<InstructionsPage />} />
       </Routes>
     </Router>
   );
