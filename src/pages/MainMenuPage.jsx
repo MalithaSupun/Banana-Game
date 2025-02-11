@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import HomePageBg from "../assets/MainMenuBg.png"; // Import background image
 import InstructionPage from "./InstructionsPage"; // Import the instruction page
+import HomeButton from "../components/HomeButton";
+import Logout from "../components/LogoutButton";
 
 function MainMenuPage() {
   const [showInstruction, setShowInstruction] = useState(false);
@@ -35,25 +37,27 @@ function MainMenuPage() {
             Instruction
           </button>
           <button className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full">
-            Levels
+            Play
           </button>
         </div>
 
-        {/* Back Button */}
-        <button className="bg-secondary text-black font-bold text-2xl py-3 rounded-full w-14 h-14 mt-auto">
-          ⬅️
-        </button>
+        {/* Pushes Logout to the Bottom */}
+        <div className="mt-auto w-full flex justify-center">
+          <Logout />
+        </div>
       </div>
 
       {/* Instruction Page Display (Right Side) */}
       <div className="flex-1 p-8">
-        {showInstruction ? <InstructionPage /> : <p className="text-black text-xl">Welcome to the Main Menu!</p>}
+        {showInstruction ? (
+          <InstructionPage />
+        ) : (
+          <p className="text-black text-xl">Welcome to the Main Menu!</p>
+        )}
       </div>
 
       {/* Home Button (Top Right) */}
-      <button className="absolute top-20 right-20 bg-secondary p-3 px-3 rounded-lg shadow-lg">
-        🏠
-      </button>
+      <HomeButton />
     </div>
   );
 }
