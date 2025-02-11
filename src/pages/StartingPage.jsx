@@ -15,7 +15,7 @@ export default function StartingPage() {
     const timer = setTimeout(() => {
       setLoading(false); // Hide the splash screen after 3 seconds
       navigate("/landing"); // Navigate to the LandingPage
-    }, 4000); // 3 seconds timeout
+    }, 4000); // 4 seconds timeout
 
     return () => clearTimeout(timer); // Cleanup timer on component unmount
   }, [navigate]);
@@ -38,7 +38,7 @@ export default function StartingPage() {
       <img 
         src={bananslices} 
         alt="Bottom Right Image" 
-        className="absolute bottom-0 left-0 max-w-96 max-h-96 object-cover mb-20 mr-20" 
+        className="absolute bottom-0 left-20 max-w-2xl max-h-96 object-cover mb-20 mr-20" 
       />
     </div>
   );
