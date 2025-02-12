@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import HomePageBg from "../assets/MainMenuBg.png"; // Import background image
-import InstructionPage from "./InstructionsPage"; // Import the instruction page
-import LeaderBoardPage from "./LeaderBoardPage"; // Import the Leaderboard page
+import HomePageBg from "../assets/MainMenuBg.png"; 
+import InstructionPage from "./InstructionsPage"; 
+import LeaderBoardPage from "./LeaderBoardPage";
+import LevelSelectionPage from "./LevelSelectionPage";
 import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
@@ -41,7 +42,10 @@ function MainMenuPage() {
           >
             Instruction
           </button>
-          <button className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full">
+          <button 
+          className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+          onClick={() => setActivePage("levelSelection")}
+          >
             Play
           </button>
         </div>
@@ -58,8 +62,10 @@ function MainMenuPage() {
           <LeaderBoardPage />
         ) : activePage === "instruction" ? (
           <InstructionPage />
+        ) : activePage === "levelSelection" ? (
+          <LevelSelectionPage />
         ) : (
-          <WelcomePage />
+           <WelcomePage />
         )}
       </div>
 

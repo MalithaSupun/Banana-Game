@@ -7,6 +7,8 @@ import MainMenuPage from "./pages/MainMenuPage";
 import InstructionsPage from "./pages/InstructionsPage";
 import LeaderBoardPage from "./pages/LeaderBoardPage";
 import WelcomePage from "./pages/WelcomePage";
+import LevelSelectionPage from "./pages/LevelSelectionPage";
+import GamePage from "./pages/GamePage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/instructions" element={<InstructionsPage />} />
         <Route path="/leaderboard" element={<LeaderBoardPage />} />
         <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/levelselection" element={<LevelSelectionPage />} />
+        <Route path="/game" element={<GamePage />} />
       </Routes>
     </Router>
   );

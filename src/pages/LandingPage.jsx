@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LandingPageImg from "../assets/LandingPageBg.png";
 import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/Landingpageimg1.png";
-import bananslices from "../assets/Startingpageimg3.png"
+import bananslices from "../assets/Startingpageimg3.png";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -16,18 +16,20 @@ function LandingPage() {
       />
       <div className="relative z-10 gap-4 flex flex-col">
         <BananaTitleBox />
-        <div className="bg-secondary rounded-lg shadow-lg text-center text-black font-dancingScript text-4xl py-3">
+        <div className="bg-secondary rounded-lg shadow-lg text-center text-black font-dancingScript text-5xl py-5">
           <h3>Redy To Play!</h3>
         </div>
         <div className="flex gap-4 mt-4 justify-center w-full">
-          <button 
-          onClick={() => navigate("/login")}
-          className="bg-secondary rounded-lg text-2xl text-center hover:bg-green-600 w-40 h-14 text-black font-dancingScript font-semibold backdrop-blur-sm backdrop-shadow-lg py-3 px-8">
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-secondary rounded-lg text-4xl text-center hover:bg-green-600 w-52 h-20 text-black font-dancingScript font-semibold flex items-center justify-center"
+          >
             Login
           </button>
-          <button 
-          onClick={() => navigate("/signup")}
-          className="bg-secondary rounded-lg text-2xl text-center hover:bg-green-600 w-40 h-14 text-black font-dancingScript font-semibold backdrop-blur-sm backdrop-shadow-lg py-3 px-8">
+          <button
+            onClick={() => navigate("/signup")}
+            className="bg-secondary rounded-lg text-4xl text-center hover:bg-green-600 w-52 h-20 text-black font-dancingScript font-semibold flex items-center justify-center"
+          >
             Sign Up
           </button>
         </div>
