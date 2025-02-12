@@ -1,11 +1,14 @@
 import React from "react";
+import onestplace from "../assets/1stplace.png";
+import secondplace from "../assets/2ndplace.png";
+import thirdplace from "../assets/3rdplace.png";
 
 function LeaderBoardPage() {
   // Sample leaderboard data
   const topPlayers = [
-    { rank: 2, name: "PLAYER", score: 90000, medal: "🥈" },
-    { rank: 1, name: "PLAYER", score: 100000, medal: "🥇" },
-    { rank: 3, name: "PLAYER", score: 70000, medal: "🥉" },
+    { rank: 2, name: "PLAYER", score: 90000, medal: secondplace }, 
+    { rank: 1, name: "PLAYER", score: 100000, medal: onestplace }, 
+    { rank: 3, name: "PLAYER", score: 70000, medal: thirdplace }, 
   ];
 
   const otherPlayers = [
@@ -16,7 +19,7 @@ function LeaderBoardPage() {
   ];
 
   return (
-    <div className="flex flex-col items-start justify-start h-full w-full  bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
+    <div className="flex flex-col items-start justify-start h-full w-full bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
       {/* Header Section */}
       <div className="bg-primary p-4 rounded-lg mb-6 w-fit text-left">
         <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3">
@@ -30,8 +33,11 @@ function LeaderBoardPage() {
         <div className="flex justify-center items-center space-x-14 mb-6">
           {topPlayers.map((player, index) => (
             <div key={index} className="flex flex-col items-center bg-primary p-6 rounded-full">
-              <div className="w-24 h-24 flex items-center justify-center text-5xl">
-                {player.medal}
+              <div
+                className={`w-${player.rank === 1 ? "33" : "20"} h-${player.rank === 1 ? "24" : "24"} flex items-center justify-center`} // Apply conditional size for 2nd and 3rd place
+              >
+                {/* Display the medal image */}
+                <img src={player.medal} alt={`${player.rank} medal`} className="w-full h-full object-contain" />
               </div>
               <p className="text-lg font-bold text-black">{player.name} {player.score}</p>
             </div>
