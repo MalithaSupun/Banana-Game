@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import HomePageBg from "../assets/MainMenuBg.png"; 
-import InstructionPage from "./InstructionsPage"; 
+import HomePageBg from "../assets/MainMenuBg.png";
+import InstructionPage from "./InstructionsPage";
+import GamePage from "./GamePage";
 import LeaderBoardPage from "./LeaderBoardPage";
 import LevelSelectionPage from "./LevelSelectionPage";
 import HomeButton from "../components/HomeButton";
@@ -8,7 +9,8 @@ import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
 
 function MainMenuPage() {
-  const [activePage, setActivePage] = useState(null); // Manage which page to show
+  const [activePage, setActivePage] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState("medium"); // Default level
 
   return (
     <div
@@ -32,19 +34,19 @@ function MainMenuPage() {
         <div className="flex flex-col mt-6 w-full space-y-4">
           <button
             className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
-            onClick={() => setActivePage("leaderboard")} // Show Leaderboard Page
+            onClick={() => setActivePage("leaderboard")}
           >
             Leader board
           </button>
           <button
             className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
-            onClick={() => setActivePage("instruction")} // Show Instruction Page
+            onClick={() => setActivePage("instruction")}
           >
             Instruction
           </button>
-          <button 
-          className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
-          onClick={() => setActivePage("levelSelection")}
+          <button
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+            onClick={() => setActivePage("levelSelection")}
           >
             Play
           </button>
@@ -63,9 +65,16 @@ function MainMenuPage() {
         ) : activePage === "instruction" ? (
           <InstructionPage />
         ) : activePage === "levelSelection" ? (
-          <LevelSelectionPage />
+          <LevelSelectionPage
+            onLevelSelect={(level) => {
+              setSelectedLevel(level);
+              setActivePage("game"); // Move to game after level selection
+            }}
+          />
+        ) : activePage === "game" ? (
+          <GamePage selectedLevel={selectedLevel} />
         ) : (
-           <WelcomePage />
+          <WelcomePage />
         )}
       </div>
 

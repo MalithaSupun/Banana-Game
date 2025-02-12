@@ -1,41 +1,43 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import BottomRightImage from "../assets/MainMenuBanana.png";
 
-function LevelSelectionPage() {
-    const navigate = useNavigate();
+function LevelSelectionPage({ onLevelSelect }) {
   return (
     <div className="flex flex-col items-start justify-start h-full w-full  bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
-      {/* Header Section */}
-      <div className="bg-primary p-4 rounded-lg mb-6 w-fit text-left">
+      {/* Header */}
+      <div className="bg-red-200 p-4 rounded-lg mb-6 w-fit text-center">
         <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3">
           Levels
         </h2>
       </div>
 
       {/* Level Selection Box */}
-      <div className="bg-[#F5E8C7] p-8 rounded-lg shadow-lg w-[700px]">
+      <div className="bg-[#F5E8C7] p-8 rounded-lg shadow-lg w-[750px]">
         <h3 className="text-5xl font-bold text-red-600 italic font-dancingScript text-center">
           Choose difficulty
         </h3>
 
-        {/* Difficulty Levels */}
+        {/* Difficulty Selection Buttons */}
         <div className="flex flex-col space-y-4 mt-10">
-          <button className="bg-[#A8D1E7] text-black font-bold text-4xl px-6 py-7 rounded-lg shadow-lg hover:bg-blue-400 flex items-center justify-center space-x-3 z-10">
-            <span>🍌</span>
-            <span>Sweet & Simple - Easy level</span>
+          <button
+            className="bg-[#A8D1E7] text-black font-bold text-4xl px-6 py-8 rounded-lg shadow-lg hover:bg-blue-400"
+            onClick={() => onLevelSelect("easy")}
+          >
+            🍌 Sweet & Simple - Easy level
           </button>
 
-          <button className="bg-[#A8D1E7] text-black font-bold text-4xl px-6 py-7 rounded-lg shadow-lg hover:bg-blue-600 flex items-center justify-center space-x-3 z-10">
-            <span>🍌</span>
-            <span>Bana Clever - Medium level</span>
+          <button
+            className="bg-[#A8D1E7] text-black font-bold text-4xl px-6 py-8 rounded-lg shadow-lg hover:bg-blue-600"
+            onClick={() => onLevelSelect("medium")}
+          >
+            🍌 Bana Clever - Medium level
           </button>
 
-          <button 
-          onClick={() => navigate("/game")}
-          className="bg-[#FF8888] text-black font-bold text-4xl px-6 py-7 rounded-lg shadow-lg hover:bg-red-600 flex items-center justify-center space-x-3 z-10">
-            <span>🔥</span>
-            <span>Ultimate Whiz - Hard level</span>
+          <button
+            className="bg-[#FF8888] text-black font-bold text-4xl px-6 py-8 rounded-lg shadow-lg hover:bg-red-600"
+            onClick={() => onLevelSelect("hard")}
+          >
+            🔥 Ultimate Whiz - Hard level
           </button>
         </div>
       </div>
@@ -43,7 +45,7 @@ function LevelSelectionPage() {
       <img
         src={BottomRightImage}
         alt="Decorative"
-        className="absolute bottom-4 right-4 max-w-xl max-h-xl object-contain"
+        className="absolute bottom-4 right-4 max-w-96 max-h-96 object-contain"
       />
     </div>
   );
