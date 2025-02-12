@@ -8,7 +8,7 @@ import FallingBanana from "../assets/BananaDrop.png"; // Updated variable name t
 
 function LandingPage() {
   const navigate = useNavigate();
-  const [fallingBananas, setFallingBananas] = useState([]); // Changed variable name
+  const [fallingBananas, setFallingBananas] = useState([]);
 
   // Prevent scrolling
   useEffect(() => {
@@ -23,12 +23,24 @@ function LandingPage() {
     const bananasArray = Array.from({ length: 15 }, (_, index) => ({
       id: index,
       left: Math.random() * 100, // Random horizontal position
-      duration: Math.random() * 5 + 3, // Different fall speeds
+      duration: Math.random() * 12 + 3 + 2, // Different fall speeds
       delay: Math.random() * 2, // Different start delays
-      size: Math.random() *  40 + 30 + 20, // Random size
+      size: Math.random() * 40 + 30 + 20, // Random size
+      clicked: false, // New state to track click event
     }));
     setFallingBananas(bananasArray);
   }, []);
+
+  // Handle banana click (pop effect)
+  const handleBananaClick = (id) => {
+    setFallingBananas((prevBananas) =>
+      prevBananas.map((banana) =>
+        banana.id === id
+          ? { ...banana, clicked: true } // Mark the clicked banana as popped
+          : banana
+      )
+    );
+  };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-900 relative overflow-hidden">
@@ -73,14 +85,16 @@ function LandingPage() {
           key={banana.id}
           src={FallingBanana} // Changed from Flower to FallingBanana
           alt="Falling Banana"
-          className="absolute animate-fall"
+          className={`absolute animate-fall ${banana.clicked ? "pop" : ""}`} // Apply the "pop" animation if clicked
           style={{
             left: `${banana.left}vw`,
             top: `-10vh`,
             width: `${banana.size}px`,
             animationDuration: `${banana.duration}s`,
             animationDelay: `${banana.delay}s`,
+            cursor: "pointer", // Make bananas clickable
           }}
+          onClick={() => handleBananaClick(banana.id)} // Handle the click event
         />
       ))}
       {/* Falling Banana Animation */}
@@ -99,6 +113,25 @@ function LandingPage() {
 
           .animate-fall {
             animation: fall linear infinite;
+          }
+
+          @keyframes pop {
+            0% {
+              transform: scale(1) rotate(0deg);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.2) rotate(10deg);
+              opacity: 0.7;
+            }
+            100% {
+              transform: scale(0) rotate(0deg);
+              opacity: 0;
+            }
+          }
+
+          .pop {
+            animation: pop 0.5s ease forwards;
           }
         `}
       </style>
