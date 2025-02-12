@@ -9,6 +9,8 @@ import LeaderBoardPage from "./pages/LeaderBoardPage";
 import WelcomePage from "./pages/WelcomePage";
 import LevelSelectionPage from "./pages/LevelSelectionPage";
 import GamePage from "./pages/GamePage";
+import { ToastContainer } from "react-toastify"; // Import ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
         <Route path="/levelselection" element={<LevelSelectionPage />} />
         <Route path="/game" element={<GamePage />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }

@@ -1,17 +1,69 @@
-import React from "react";
-import LoginBg from "../assets/LoginBg.png"; // Import background image
+import React, { useState } from "react";
+import LoginBg from "../assets/LoginBg.png";
 import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
+import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
+import { toast } from "react-toastify"; // Import toast
 
 function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const username = user.displayName || "User"; // Assuming the username is part of the user data (if available)
+        
+        // Successfully logged in
+        toast.success(`${username} successfully logged in!`, { // Show toast message
+          position: "top-center",
+          autoClose: 3000, // Auto close after 3 seconds
+        });
+
+        // Redirect to main menu
+        navigate("/mainmenu");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        
+        // Handle specific errors
+        if (errorCode === 'auth/wrong-password') {
+          toast.error('Incorrect password. Please try again.', {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (errorCode === 'auth/user-not-found') {
+          toast.error('No user found with this email. Please check your email.', {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (errorCode === 'auth/invalid-email') {
+          toast.error('Invalid email format. Please check your email.', {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          // General error
+          toast.error(errorMessage, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      });
+  };
+
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen w-full bg-cover bg-center"
-      style={{ backgroundImage: `url(${LoginBg})` }} // Set background
+      style={{ backgroundImage: `url(${LoginBg})` }}
     >
       <BananaTitleBox />
-      {/* Top Left Image */}
       <img
         src={BananaRight}
         alt="Top Left"
@@ -19,38 +71,43 @@ function LoginPage() {
       />
       <div className="flex flex-col items-center bg-fourthcolor p-14 pt-20 rounded-2xl shadow-lg min-w-[500px] min-h-[550px] border mt-9 z-10">
         <label className="text-xl font-bold text-black mb-2 self-start font-dancingScript">
-          User Name
+          Email
         </label>
         <input
-          type="text"
-          placeholder="Enter your user name"
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="w-full p-3 rounded-lg bg-thirdcolor text-black placeholder-black text-lg shadow-md font-dancingScript"
         />
-
         <label className="text-xl font-bold text-black mt-4 mb-2 self-start font-dancingScript">
           Password
         </label>
         <input
           type="password"
           placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="w-full p-3 rounded-lg bg-thirdcolor text-black placeholder-black text-lg shadow-md font-dancingScript"
         />
-        <button className="bg-secondary text-black font-bold text-xl px-6 py-3 rounded-lg mt-12 shadow-lg font-dancingScript">
+        <button
+          onClick={handleLogin}
+          className="bg-secondary text-black font-bold text-xl px-6 py-3 rounded-lg mt-12 shadow-lg font-dancingScript"
+        >
           Log-In
         </button>
-
         <p className="mt-4 text-black">
-          Already have an account?
+          Don't have an account?
           <a href="/signup" className="text-blue-500 ml-1">
-            Sign up
+            Sign Up
           </a>
         </p>
       </div>
       <img
-              src={Banana}
-              alt="Bottom Right"
-              className="absolute bottom-8 right-9 min-w-md min-h-96 object-contain"
-            />
+        src={Banana}
+        alt="Bottom Right"
+        className="absolute bottom-8 right-9 min-w-md min-h-96 object-contain"
+      />
     </div>
   );
 }
