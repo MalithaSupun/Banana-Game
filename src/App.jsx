@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import MainMenuPage from "./pages/MainMenuPage";
 import InstructionsPage from "./pages/InstructionsPage";
 import LeaderBoardPage from "./pages/LeaderBoardPage";
+import WelcomePage from "./pages/WelcomePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/mainmenu" element={<MainMenuPage />} />
         <Route path="/instructions" element={<InstructionsPage />} />
         <Route path="/leaderboard" element={<LeaderBoardPage />} />
+        <Route path="/welcome" element={<WelcomePage />} />
       </Routes>
     </Router>
   );

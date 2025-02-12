@@ -4,6 +4,7 @@ import InstructionPage from "./InstructionsPage"; // Import the instruction page
 import LeaderBoardPage from "./LeaderBoardPage"; // Import the Leaderboard page
 import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
+import WelcomePage from "./WelcomePage";
 
 function MainMenuPage() {
   const [activePage, setActivePage] = useState(null); // Manage which page to show
@@ -58,7 +59,7 @@ function MainMenuPage() {
         ) : activePage === "instruction" ? (
           <InstructionPage />
         ) : (
-          <p className="text-black text-xl">Welcome to the Main Menu!</p>
+          <WelcomePage />
         )}
       </div>
 
