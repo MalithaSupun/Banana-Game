@@ -25,7 +25,7 @@ function LandingPage() {
       left: Math.random() * 100, // Random horizontal position
       duration: Math.random() * 5 + 3, // Different fall speeds
       delay: Math.random() * 2, // Different start delays
-      size: Math.random() * 70 + 50 + 40 + 30 + 20, // Random size
+      size: Math.random() *  40 + 30 + 20, // Random size
     }));
     setFallingBananas(bananasArray);
   }, []);

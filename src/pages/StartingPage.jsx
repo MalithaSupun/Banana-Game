@@ -15,7 +15,7 @@ export default function StartingPage() {
     const timer = setTimeout(() => {
       setLoading(false);
       navigate("/landing");
-    }, 3000); // 4 seconds timeout
+    }, 4000); // 4 seconds timeout
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -57,6 +57,12 @@ export default function StartingPage() {
           <Loading />
         </div>
       </div>
+      <img
+        src={Flower} // Your image here
+        alt="Top Right"
+        className="absolute top-8 right-8 max-w-32 max-h-32 object-contain"
+      />
+
 
       {/* Bottom Right Image */}
       <img
