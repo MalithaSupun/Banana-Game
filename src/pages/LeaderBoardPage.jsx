@@ -43,7 +43,7 @@ function LeaderBoardPage() {
           {otherPlayers.map((player, index) => (
             <div
               key={index}
-              className="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow-md w-full"
+              className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full"
             >
               <div className="flex items-center space-x-3">
                 <span className="text-xl font-bold">#{player.rank}</span>

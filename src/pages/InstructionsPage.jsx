@@ -12,7 +12,7 @@ function InstructionPage() {
         </div>
 
         {/* Instruction Content */}
-        <div className="bg-[#F5E8C7] p-6 rounded-lg shadow-md w-fit z-10">
+        <div className="bg-fourthcolor p-6 rounded-lg shadow-md w-fit z-10">
           <h3 className="text-xl font-bold text-red-600 italic mb-4">How to Play:</h3>
           <ul className="text-3xl text-black space-y-2">
             <li>1.) Pick a Level – Easy, Medium, or Hard.</li>
