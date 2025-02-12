@@ -35,7 +35,7 @@ function WelcomePage() {
       <img
         src={BottomRightImage}
         alt="Decorative"
-        className="absolute bottom-4 right-2 max-w-xl max-h-xl object-contain"
+        className="absolute bottom-4 right-4 max-w-96 max-h-96 object-contain"
       />
     </div>
   );
