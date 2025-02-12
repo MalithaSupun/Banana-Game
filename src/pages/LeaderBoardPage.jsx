@@ -29,7 +29,7 @@ function LeaderBoardPage() {
         {/* Top 3 Players */}
         <div className="flex justify-center items-center space-x-14 mb-6">
           {topPlayers.map((player, index) => (
-            <div key={index} className="flex flex-col items-center">
+            <div key={index} className="flex flex-col items-center bg-primary p-6 rounded-full">
               <div className="w-24 h-24 flex items-center justify-center text-5xl">
                 {player.medal}
               </div>
