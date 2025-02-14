@@ -7,36 +7,40 @@ import LevelSelectionPage from "./LevelSelectionPage";
 import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
-import { getAuth } from "firebase/auth"; // To retrieve user data from Firebase
-import { getFirestore, doc, getDoc } from "firebase/firestore"; // To retrieve score from Firestore
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 function MainMenuPage() {
   const [activePage, setActivePage] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState("medium"); // Default level
   const [user, setUser] = useState(null);
-  const [score, setScore] = useState(0); // Default score is 0
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const auth = getAuth();
-    const currentUser = auth.currentUser;
 
-    if (currentUser) {
-      // Fetch username from Firebase Authentication
-      setUser({
-        username: currentUser.displayName || "User", // Default username if displayName is not set
-      });
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser({ username: currentUser.displayName || "User" });
 
-      // Fetch user score from Firestore (or another database)
-      const db = getFirestore();
-      const userDocRef = doc(db, "users", currentUser.uid); // Assuming users are stored in a 'users' collection
-      getDoc(userDocRef).then((docSnap) => {
+        // Fetch user score from Firestore
+        const db = getFirestore();
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const docSnap = await getDoc(userDocRef);
+
         if (docSnap.exists()) {
-          setScore(docSnap.data().score || 0); // Use 0 if score is not found in the document
+          setScore(docSnap.data().score || 0);
         } else {
-          setScore(0); // If user document doesn't exist, set score to 0
+          setScore(0);
         }
-      });
-    }
+      } else {
+        setUser(null);
+        setScore(0);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -60,7 +64,7 @@ function MainMenuPage() {
             </p>
           </>
         ) : (
-          <p>Loading...</p> // If user data is not loaded yet
+          <p>Loading...</p>
         )}
 
         {/* Buttons */}
@@ -85,7 +89,7 @@ function MainMenuPage() {
           </button>
         </div>
 
-        {/* Pushes Logout to the Bottom */}
+        {/* Logout */}
         <div className="mt-auto w-full flex justify-center">
           <Logout />
         </div>
@@ -101,7 +105,7 @@ function MainMenuPage() {
           <LevelSelectionPage
             onLevelSelect={(level) => {
               setSelectedLevel(level);
-              setActivePage("game"); // Move to game after level selection
+              setActivePage("game");
             }}
           />
         ) : activePage === "game" ? (
