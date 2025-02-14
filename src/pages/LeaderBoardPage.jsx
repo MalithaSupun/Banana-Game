@@ -32,14 +32,14 @@ function LeaderBoardPage() {
         {/* Top 3 Players */}
         <div className="flex justify-center items-center space-x-14 mb-6">
           {topPlayers.map((player, index) => (
-            <div key={index} className="flex flex-col items-center bg-primary p-6 rounded-full">
+            <div key={index} className="flex flex-col items-center p-7 rounded-full">
               <div
-                className={`w-${player.rank === 1 ? "33" : "20"} h-${player.rank === 1 ? "24" : "24"} flex items-center justify-center`} // Apply conditional size for 2nd and 3rd place
+                className={`w-${player.rank === 1 ? "24" : "20"} h-${player.rank === 1 ? "24" : "24"} flex items-center justify-center`} // Apply conditional size for 2nd and 3rd place
               >
                 {/* Display the medal image */}
                 <img src={player.medal} alt={`${player.rank} medal`} className="w-full h-full object-contain" />
               </div>
-              <p className="text-lg font-bold text-black">{player.name} {player.score}</p>
+              <p className="text-lg mt-4 font-bold text-black">{player.name} {player.score}</p>
             </div>
           ))}
         </div>
