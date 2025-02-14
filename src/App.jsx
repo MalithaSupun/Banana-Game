@@ -9,8 +9,9 @@ import LeaderBoardPage from "./pages/LeaderBoardPage";
 import WelcomePage from "./pages/WelcomePage";
 import LevelSelectionPage from "./pages/LevelSelectionPage";
 import GamePage from "./pages/GamePage";
-import { ToastContainer } from "react-toastify"; // Import ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./routes/PrivateRoute"; // Import PrivateRoute
 
 function App() {
   return (
@@ -20,12 +21,56 @@ function App() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/mainmenu" element={<MainMenuPage />} />
-        <Route path="/instructions" element={<InstructionsPage />} />
-        <Route path="/leaderboard" element={<LeaderBoardPage />} />
-        <Route path="/welcome" element={<WelcomePage />} />
-        <Route path="/levelselection" element={<LevelSelectionPage />} />
-        <Route path="/game" element={<GamePage />} />
+
+        {/* Private Routes */}
+        <Route 
+          path="/mainmenu" 
+          element={
+            <PrivateRoute>
+              <MainMenuPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/instructions" 
+          element={
+            <PrivateRoute>
+              <InstructionsPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/leaderboard" 
+          element={
+            <PrivateRoute>
+              <LeaderBoardPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/welcome" 
+          element={
+            <PrivateRoute>
+              <WelcomePage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/levelselection" 
+          element={
+            <PrivateRoute>
+              <LevelSelectionPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/game" 
+          element={
+            <PrivateRoute>
+              <GamePage />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
       <ToastContainer />
     </Router>

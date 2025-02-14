@@ -17,44 +17,25 @@ function LoginPage() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        const username = user.displayName || "User"; // Assuming the username is part of the user data (if available)
         
-        // Successfully logged in
-        toast.success(`${username} successfully logged in!`, { // Show toast message
-          position: "top-center",
-          autoClose: 3000, // Auto close after 3 seconds
+        // Get the authentication token
+        user.getIdToken().then((token) => {
+          localStorage.setItem("authToken", token); // Store the token in local storage
+          localStorage.setItem("userEmail", user.email); // Optionally store email
+  
+          toast.success("Successfully logged in!", { 
+            position: "top-center",
+            autoClose: 3000,
+          });
+  
+          navigate("/mainmenu"); // Redirect to the main menu
         });
-
-        // Redirect to main menu
-        navigate("/mainmenu");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        
-        // Handle specific errors
-        if (errorCode === 'auth/wrong-password') {
-          toast.error('Incorrect password. Please try again.', {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (errorCode === 'auth/user-not-found') {
-          toast.error('No user found with this email. Please check your email.', {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (errorCode === 'auth/invalid-email') {
-          toast.error('Invalid email format. Please check your email.', {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else {
-          // General error
-          toast.error(errorMessage, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        }
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 3000,
+        });
       });
   };
 
