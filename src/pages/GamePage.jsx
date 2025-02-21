@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loader from "../components/Loader"; // Import the Loader component
 
+// Import sound files
+import clickSound from "../assets/ClickSound.mp3";
+import gameOverSound from "../assets/GameOverSound.mp3";
+
 function GamePage({ selectedLevel }) {
   const levelTimes = {
     easy: 20,
@@ -24,6 +28,12 @@ function GamePage({ selectedLevel }) {
 
   const firstTimeDown = useRef(false);
   const lifeReduced = useRef(false);
+
+  // Function to play sound
+  const playSound = (sound) => {
+    const audio = new Audio(sound);
+    audio.play();
+  };
 
   // Fetch the first image when the component is mounted
   useEffect(() => {
@@ -72,6 +82,7 @@ function GamePage({ selectedLevel }) {
             } else {
               setLives(0); // Game Over if no lives left
               lifeReduced.current = true;
+              playSound(gameOverSound); // Play the game over sound
             }
           }
           return 0;
@@ -84,6 +95,8 @@ function GamePage({ selectedLevel }) {
 
   const handleAnswerSelection = (number) => {
     if (lives === 0 || !imageData) return;
+
+    playSound(clickSound); // Play click sound when an answer is selected
 
     if (number === imageData.solution) {
       setIsCorrect(true);
@@ -99,6 +112,7 @@ function GamePage({ selectedLevel }) {
         setLives(lives - 1); // Deduct life for incorrect answer
       } else {
         setLives(0); // Game Over if no lives left
+        playSound(gameOverSound); // Play the game over sound
       }
 
       setTimeout(() => {
