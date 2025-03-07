@@ -27,6 +27,11 @@ function MainMenuPage() {
     if (storedMuteState !== null) {
       setIsMuted(storedMuteState === "true");
     }
+
+    const storedVolume = localStorage.getItem("volumeLevel");
+    if (storedVolume !== null) {
+      setVolume(parseFloat(storedVolume));
+    }
   }, []);
 
   useEffect(() => {
@@ -89,7 +94,9 @@ function MainMenuPage() {
   };
 
   const handleVolumeAdjust = (event) => {
-    setVolume(event.target.value);
+    const newVolume = event.target.value;
+    setVolume(newVolume);
+    localStorage.setItem("volumeLevel", newVolume);
     setTimeout(() => setShowVolumeControl(false), 2000); // Hide after 2 sec
   };
 
