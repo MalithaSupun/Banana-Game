@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import HomePageBg from "../assets/MainMenuBg.png";
 import InstructionPage from "./InstructionsPage";
 import GamePage from "./GamePage";
@@ -8,6 +8,7 @@ import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import GameSoundLoop from "../assets/GameSoundLoop.mp3";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 function MainMenuPage() {
@@ -15,6 +16,18 @@ function MainMenuPage() {
   const [selectedLevel, setSelectedLevel] = useState("medium"); // Default level
   const [user, setUser] = useState(null);
   const [score, setScore] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1); // Default volume at max
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
+  const [holdTimeout, setHoldTimeout] = useState(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    const storedMuteState = localStorage.getItem("isMuted");
+    if (storedMuteState !== null) {
+      setIsMuted(storedMuteState === "true");
+    }
+  }, []);
 
   useEffect(() => {
     const auth = getAuth();
@@ -42,6 +55,43 @@ function MainMenuPage() {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.loop = true;
+      audioRef.current.volume = volume;
+      if (!isMuted) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isMuted, volume]);
+
+  const toggleSound = () => {
+    setIsMuted((prev) => {
+      const newState = !prev;
+      localStorage.setItem("isMuted", newState);
+      return newState;
+    });
+  };
+
+  const handleMouseDown = () => {
+    const timeout = setTimeout(() => {
+      setShowVolumeControl(true);
+    }, 1000); // 4 seconds
+    setHoldTimeout(timeout);
+  };
+
+  const handleMouseUp = () => {
+    clearTimeout(holdTimeout);
+    setHoldTimeout(null);
+  };
+
+  const handleVolumeAdjust = (event) => {
+    setVolume(event.target.value);
+    setTimeout(() => setShowVolumeControl(false), 2000); // Hide after 2 sec
+  };
 
   return (
     <div
@@ -89,9 +139,29 @@ function MainMenuPage() {
           </button>
         </div>
 
-        {/* Logout */}
-        <div className="mt-auto w-full flex justify-center">
+        {/* Mute/Unmute and Logout */}
+        <div className="mt-auto w-full flex justify-center space-x-4 items-center">
           <Logout />
+          <button
+            className="bg-secondary text-black font-bold text-2xl py-2 px-4 rounded-lg shadow-lg"
+            onClick={toggleSound}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {isMuted ? "Unmute 🔈" : "Mute 🔇"}
+          </button>
+          {showVolumeControl && (
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeAdjust}
+              className="w-24"
+            />
+          )}
         </div>
       </div>
 
@@ -114,6 +184,9 @@ function MainMenuPage() {
           <WelcomePage />
         )}
       </div>
+
+      {/* Audio Element */}
+      <audio ref={audioRef} src={GameSoundLoop} />
 
       {/* Home Button (Top Right) */}
       <HomeButton />
