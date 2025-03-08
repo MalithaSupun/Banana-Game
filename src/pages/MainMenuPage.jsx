@@ -158,19 +158,19 @@ function MainMenuPage() {
         {/* Buttons */}
         <div className="flex flex-col mt-6 w-full space-y-4">
           <button
-            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
             onClick={() => setActivePage("leaderboard")}
           >
             Leader board
           </button>
           <button
-            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
             onClick={() => setActivePage("instruction")}
           >
             Instruction
           </button>
           <button
-            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full"
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
             onClick={() => setActivePage("levelSelection")}
           >
             Play
@@ -181,7 +181,7 @@ function MainMenuPage() {
         <div className="mt-auto w-full flex justify-center space-x-4 items-center">
           <Logout />
           <button
-            className="bg-secondary text-black font-bold text-2xl py-2 px-4 rounded-lg shadow-lg"
+            className="bg-secondary text-black font-bold text-2xl py-2 px-4 rounded-lg shadow-lg transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
             onClick={toggleSound}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}

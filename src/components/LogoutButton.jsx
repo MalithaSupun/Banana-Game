@@ -40,7 +40,7 @@ function LogoutButton() {
     <div>
       <button 
         onClick={handleLogout}
-        className="bg-secondary text-black font-bold text-2xl py-3 rounded-full w-14 h-14 mt-auto"
+        className="bg-secondary text-black font-bold text-2xl py-3 rounded-full w-14 h-14 mt-auto transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
       >
         ⬅️
       </button>

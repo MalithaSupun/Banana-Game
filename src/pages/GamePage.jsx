@@ -28,6 +28,7 @@ function GamePage({ selectedLevel }) {
   const [isImageLoaded, setIsImageLoaded] = useState(false); // Track if image is loaded
   const [hasStarted, setHasStarted] = useState(false); // Track if the game has started
   const [currentScore, setCurrentScore] = useState(0); // Track current score
+  const [incorrectAnswers, setIncorrectAnswers] = useState(0); // Track incorrect answers
 
   const firstTimeDown = useRef(false);
   const lifeReduced = useRef(false);
@@ -107,7 +108,9 @@ function GamePage({ selectedLevel }) {
               setTimeLeft(levelTimes[selectedLevel]); // Reset timer
             } else {
               setLives(0); // Game Over if no lives left
-              saveScore(currentScore); // Save final score
+              if (incorrectAnswers > 0) { // Only save score if at least one incorrect answer was given
+                saveScore(currentScore); // Save final score
+              }
               playSound(gameOverSound); // Play the game over sound
             }
           }
@@ -117,7 +120,7 @@ function GamePage({ selectedLevel }) {
     }, 1000);
 
     return () => clearInterval(timer); // Cleanup timer on unmount
-  }, [lives, selectedLevel, isImageLoaded]);
+  }, [lives, selectedLevel, isImageLoaded, incorrectAnswers]);
 
   const handleAnswerSelection = (number) => {
     if (lives === 0 || !imageData) return;
@@ -138,6 +141,7 @@ function GamePage({ selectedLevel }) {
       }, 1000);
     } else {
       setIsCorrect(false);
+      setIncorrectAnswers((prev) => prev + 1); // Increment incorrect answers
       if (lives > 1) {
         setLives(lives - 1); // Deduct life for incorrect answer
       } else {
@@ -214,6 +218,7 @@ function GamePage({ selectedLevel }) {
             onClick={() => {
               setLives(levelLives[selectedLevel]); // Reset lives on restart
               setTimeLeft(levelTimes[selectedLevel]);
+              setIncorrectAnswers(0); // Reset incorrect answers on restart
               saveScore(0); // Reset score on restart
               fetchImage(); // Fetch new question image
             }}
