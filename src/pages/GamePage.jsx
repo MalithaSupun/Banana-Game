@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loader from "../components/Loader"; // Import the Loader component
+import { auth, db } from "../services/firebase"; // Import Firestore Functions
+import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore"; // Import Firestore Functions
 
 // Import sound files
 import clickSound from "../assets/ClickSound.mp3";
@@ -25,6 +27,7 @@ function GamePage({ selectedLevel }) {
   const [isCorrect, setIsCorrect] = useState(null); // Track if the answer is correct
   const [isImageLoaded, setIsImageLoaded] = useState(false); // Track if image is loaded
   const [hasStarted, setHasStarted] = useState(false); // Track if the game has started
+  const [currentScore, setCurrentScore] = useState(0); // Track current score
 
   const firstTimeDown = useRef(false);
   const lifeReduced = useRef(false);
@@ -33,6 +36,28 @@ function GamePage({ selectedLevel }) {
   const playSound = (sound) => {
     const audio = new Audio(sound);
     audio.play();
+  };
+
+  // Function to save score in Firebase
+  const saveScore = async (scoreToAdd) => {
+    const user = auth.currentUser; // Get current logged-in user
+    if (!user) return;
+
+    const userRef = doc(db, "scores", user.uid);
+
+    try {
+      const userDoc = await getDoc(userRef);
+      let newScore = scoreToAdd;
+
+      if (userDoc.exists()) {
+        newScore += userDoc.data().highestScore || 0;
+      }
+
+      await setDoc(userRef, { highestScore: newScore });
+      setCurrentScore(newScore); // Update local state
+    } catch (error) {
+      console.error("Error saving score:", error);
+    }
   };
 
   // Fetch the first image when the component is mounted
@@ -76,12 +101,13 @@ function GamePage({ selectedLevel }) {
           if (!lifeReduced.current) {
             if (lives > 1) {
               setLives((prevLives) => prevLives - 1);
-              lifeReduced.current = true;
+              lifeReduced.current = false; // Reset flag for next life
+              firstTimeDown.current = false; // Reset flag for proper countdown continuation
               fetchImage(); // Fetch a new question image
               setTimeLeft(levelTimes[selectedLevel]); // Reset timer
             } else {
               setLives(0); // Game Over if no lives left
-              lifeReduced.current = true;
+              saveScore(currentScore); // Save final score
               playSound(gameOverSound); // Play the game over sound
             }
           }
@@ -99,6 +125,10 @@ function GamePage({ selectedLevel }) {
     playSound(clickSound); // Play click sound when an answer is selected
 
     if (number === imageData.solution) {
+      const scoreMultiplier = selectedLevel === "easy" ? 10 : selectedLevel === "medium" ? 20 : 35;
+      const newScore = currentScore + scoreMultiplier;
+      setCurrentScore(newScore);
+      saveScore(scoreMultiplier);
       setIsCorrect(true);
       setTimeout(() => {
         fetchImage(); // Fetch a new question image after correct answer
@@ -112,6 +142,7 @@ function GamePage({ selectedLevel }) {
         setLives(lives - 1); // Deduct life for incorrect answer
       } else {
         setLives(0); // Game Over if no lives left
+        saveScore(lives * 10 + timeLeft); // Example scoring system
         playSound(gameOverSound); // Play the game over sound
       }
 
@@ -184,6 +215,7 @@ function GamePage({ selectedLevel }) {
             onClick={() => {
               setLives(levelLives[selectedLevel]); // Reset lives on restart
               setTimeLeft(levelTimes[selectedLevel]);
+              saveScore(0); // Reset score on restart
               fetchImage(); // Fetch new question image
             }}
             className="bg-green-500 text-black font-bold text-2xl px-6 py-3 rounded-lg shadow-lg hover:bg-green-700"

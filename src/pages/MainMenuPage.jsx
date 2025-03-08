@@ -9,7 +9,7 @@ import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import GameSoundLoop from "../assets/GameSoundLoop.mp3";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 
 function MainMenuPage() {
   const [activePage, setActivePage] = useState(null);
@@ -37,22 +37,23 @@ function MainMenuPage() {
 
   useEffect(() => {
     const auth = getAuth();
+    const db = getFirestore();
 
-    // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser({ username: currentUser.displayName || "User" });
 
-        // Fetch user score from Firestore
-        const db = getFirestore();
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const docSnap = await getDoc(userDocRef);
+        // Set up a real-time listener for the score
+        const userDocRef = doc(db, "scores", currentUser.uid);
+        const unsubscribeScore = onSnapshot(userDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            setScore(docSnap.data().highestScore || 0);
+          } else {
+            setScore(0);
+          }
+        });
 
-        if (docSnap.exists()) {
-          setScore(docSnap.data().score || 0);
-        } else {
-          setScore(0);
-        }
+        return () => unsubscribeScore();
       } else {
         setUser(null);
         setScore(0);
