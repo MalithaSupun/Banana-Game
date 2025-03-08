@@ -21,6 +21,7 @@ function MainMenuPage() {
   const [showVolumeControl, setShowVolumeControl] = useState(false);
   const [holdTimeout, setHoldTimeout] = useState(null);
   const audioRef = useRef(null);
+  const volumeControlRef = useRef(null);
 
   useEffect(() => {
     const storedMuteState = localStorage.getItem("isMuted");
@@ -73,6 +74,19 @@ function MainMenuPage() {
     }
   }, [isMuted, volume]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showVolumeControl && volumeControlRef.current && !volumeControlRef.current.contains(event.target)) {
+        setShowVolumeControl(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showVolumeControl]);
+
   const toggleSound = () => {
     setIsMuted((prev) => {
       const newState = !prev;
@@ -82,22 +96,38 @@ function MainMenuPage() {
   };
 
   const handleMouseDown = () => {
-    const timeout = setTimeout(() => {
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+    }
+    setHoldTimeout(setTimeout(() => {
       setShowVolumeControl(true);
-    }, 1000); // 4 seconds
-    setHoldTimeout(timeout);
+    }, 500)); // Show after 2 seconds of holding
   };
 
   const handleMouseUp = () => {
-    clearTimeout(holdTimeout);
-    setHoldTimeout(null);
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+    }
+  };
+  
+  const handleInteractionEnd = () => {
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+    }
+    setHoldTimeout(setTimeout(() => {
+      setShowVolumeControl(false);
+    }, 2000)); // Hide after 2 seconds of inactivity
   };
 
   const handleVolumeAdjust = (event) => {
     const newVolume = event.target.value;
     setVolume(newVolume);
     localStorage.setItem("volumeLevel", newVolume);
-    setTimeout(() => setShowVolumeControl(false), 2000); // Hide after 2 sec
+
+    // Prevent hiding while adjusting
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+    }
   };
 
   return (
@@ -159,15 +189,22 @@ function MainMenuPage() {
             {isMuted ? "Unmute 🔈" : "Mute 🔇"}
           </button>
           {showVolumeControl && (
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={handleVolumeAdjust}
-              className="w-24"
-            />
+            <div ref={volumeControlRef}>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={handleVolumeAdjust}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleInteractionEnd}
+                onMouseLeave={handleInteractionEnd}
+                onTouchStart={handleMouseDown}
+                onTouchEnd={handleInteractionEnd}
+                className="w-24"
+              />
+            </div>
           )}
         </div>
       </div>
