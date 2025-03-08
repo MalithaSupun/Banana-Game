@@ -142,7 +142,6 @@ function GamePage({ selectedLevel }) {
         setLives(lives - 1); // Deduct life for incorrect answer
       } else {
         setLives(0); // Game Over if no lives left
-        saveScore(lives * 10 + timeLeft); // Example scoring system
         playSound(gameOverSound); // Play the game over sound
       }
 
