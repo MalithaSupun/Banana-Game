@@ -4,8 +4,13 @@ import { collection, getDocs } from "firebase/firestore";
 import onestplace from "../assets/1stplace.png";
 import secondplace from "../assets/2ndplace.png";
 import thirdplace from "../assets/3rdplace.png";
+import Confetti from "react-confetti";
+import { Fireworks } from "fireworks-js";
+import { useWindowSize } from "react-use";
 
 function LeaderBoardPage() {
+  const { width, height } = useWindowSize();
+  const [showConfetti, setShowConfetti] = useState(false);
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
@@ -22,6 +27,29 @@ function LeaderBoardPage() {
         fetchedPlayers.sort((a, b) => b.highestScore - a.highestScore);
 
         setPlayers(fetchedPlayers);
+
+        // Show celebration effects when leaderboard updates
+        if (fetchedPlayers.length > 0) {
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 6000); // Hide confetti after 6 sec
+
+          // Fireworks effect
+          const container = document.createElement("div");
+          container.style.position = "absolute";
+          container.style.top = "0";
+          container.style.left = "0";
+          container.style.width = "100%";
+          container.style.height = "100vh";
+          document.body.appendChild(container);
+
+          const fireworks = new Fireworks(container);
+          fireworks.start();
+
+          setTimeout(() => {
+            fireworks.stop();
+            document.body.removeChild(container);
+          }, 5000);
+        }
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
       }
@@ -40,59 +68,62 @@ function LeaderBoardPage() {
   const otherPlayers = players.slice(3);
 
   return (
-    <div className="flex flex-col items-start justify-start h-full w-full bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
-      {/* Header Section */}
-      <div className="bg-primary p-4 rounded-lg mb-6 w-fit text-left">
-        <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3">
-          Leader Board
-        </h2>
-      </div>
-
-      {/* Leaderboard Main Section */}
-      <div className="bg-fourthcolor p-6 rounded-lg shadow-md w-full">
-        {/* Top 3 Players */}
-        <div className="flex justify-center items-end space-x-8 mb-6">
-          {topPlayers.length > 1 && (
-            <div className="flex flex-col items-center p-4">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <img src={topPlayers[1].medal} alt="2nd medal" className="w-full h-full object-contain" />
-              </div>
-              <p className="text-lg font-bold text-black">{topPlayers[1].username}</p>
-              <p className="text-lg font-bold text-black">{topPlayers[1].highestScore}</p>
-            </div>
-          )}
-          {topPlayers.length > 0 && (
-            <div className="flex flex-col items-center p-4">
-              <div className="w-28 h-28 flex items-center justify-center">
-                <img src={topPlayers[0].medal} alt="1st medal" className="w-full h-full object-contain" />
-              </div>
-              <p className="text-lg font-bold text-black">{topPlayers[0].username}</p>
-              <p className="text-lg font-bold text-black">{topPlayers[0].highestScore}</p>
-            </div>
-          )}
-          {topPlayers.length > 2 && (
-            <div className="flex flex-col items-center p-4">
-              <div className="w-20 h-20 flex items-center justify-center">
-                <img src={topPlayers[2].medal} alt="3rd medal" className="w-full h-full object-contain" />
-              </div>
-              <p className="text-lg font-bold text-black">{topPlayers[2].username}</p>
-              <p className="text-lg font-bold text-black">{topPlayers[2].highestScore}</p>
-            </div>
-          )}
+    <div className="relative">
+      {showConfetti && <Confetti width={width} height={height} />}
+      <div className={`flex flex-col items-start justify-start h-full w-full bg-gray-300 p-6 ${showConfetti ? 'overflow-hidden' : 'overflow-y-auto'} bg-opacity-70 rounded-3xl`}>
+        {/* Header Section */}
+        <div className="bg-primary p-4 rounded-lg mb-6 w-fit text-left">
+          <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3">
+            Leader Board
+          </h2>
         </div>
 
-        {/* Other Leaderboard Players */}
-        <div className="p-4 space-y-4 w-full overflow-y-auto" style={{ maxHeight: "300px" }}>
-          {otherPlayers.map((player, index) => (
-            <div key={player.id} className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full">
-              <div className="flex items-center space-x-3">
-                <span className="text-xl font-bold">#{index + 4}</span>
-                <span className="text-2xl">🧑‍🎓</span>
-                <span className="text-xl font-bold">{player.username}</span>
+        {/* Leaderboard Main Section */}
+        <div className="bg-fourthcolor p-6 rounded-lg shadow-md w-full">
+          {/* Top 3 Players */}
+          <div className="flex justify-center items-end space-x-8 mb-6">
+            {topPlayers.length > 1 && (
+              <div className="flex flex-col items-center p-4">
+                <div className="w-20 h-20 flex items-center justify-center">
+                  <img src={topPlayers[1].medal} alt="2nd medal" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-lg font-bold text-black">{topPlayers[1].username}</p>
+                <p className="text-lg font-bold text-black">{topPlayers[1].highestScore}</p>
               </div>
-              <span className="text-xl font-bold">{player.highestScore.toLocaleString()}</span>
-            </div>
-          ))}
+            )}
+            {topPlayers.length > 0 && (
+              <div className="flex flex-col items-center p-4">
+                <div className="w-28 h-28 flex items-center justify-center">
+                  <img src={topPlayers[0].medal} alt="1st medal" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-lg font-bold text-black">{topPlayers[0].username}</p>
+                <p className="text-lg font-bold text-black">{topPlayers[0].highestScore}</p>
+              </div>
+            )}
+            {topPlayers.length > 2 && (
+              <div className="flex flex-col items-center p-4">
+                <div className="w-20 h-20 flex items-center justify-center">
+                  <img src={topPlayers[2].medal} alt="3rd medal" className="w-full h-full object-contain" />
+                </div>
+                <p className="text-lg font-bold text-black">{topPlayers[2].username}</p>
+                <p className="text-lg font-bold text-black">{topPlayers[2].highestScore}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Other Leaderboard Players */}
+          <div className="p-4 space-y-4 w-full overflow-y-auto" style={{ maxHeight: "300px" }}>
+            {otherPlayers.map((player, index) => (
+              <div key={player.id} className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full">
+                <div className="flex items-center space-x-3">
+                  <span className="text-xl font-bold">#{index + 4}</span>
+                  <span className="text-2xl">🧑‍🎓</span>
+                  <span className="text-xl font-bold">{player.username}</span>
+                </div>
+                <span className="text-xl font-bold">{player.highestScore.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
