@@ -82,7 +82,7 @@ function LeaderBoardPage() {
         </div>
 
         {/* Other Leaderboard Players */}
-        <div className="p-4 space-y-4 w-full">
+        <div className="p-4 space-y-4 w-full overflow-y-auto" style={{ maxHeight: "300px" }}>
           {otherPlayers.map((player, index) => (
             <div key={player.id} className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full">
               <div className="flex items-center space-x-3">
