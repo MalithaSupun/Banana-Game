@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoginBg from "../assets/LoginBg.png";
 import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
@@ -8,9 +8,13 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("savedEmail", email);
+  }, [email]);
 
   const handleLogin = () => {
     const auth = getAuth();
@@ -18,6 +22,9 @@ function LoginPage() {
       .then((userCredential) => {
         const user = userCredential.user;
         
+        // Store the signed-in email in localStorage
+        localStorage.setItem("savedEmail", user.email);
+
         // Get the authentication token
         user.getIdToken().then((token) => {
           localStorage.setItem("authToken", token); // Store the token in local storage
