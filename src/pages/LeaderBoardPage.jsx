@@ -51,15 +51,34 @@ function LeaderBoardPage() {
       {/* Leaderboard Main Section */}
       <div className="bg-fourthcolor p-6 rounded-lg shadow-md w-full">
         {/* Top 3 Players */}
-        <div className="flex justify-center items-center space-x-14 mb-6">
-          {topPlayers.map((player, index) => (
-            <div key={player.id} className="flex flex-col items-center p-7 rounded-full">
-              <div className={`w-${index === 0 ? "24" : "20"} h-${index === 0 ? "24" : "24"} flex items-center justify-center`}>
-                <img src={player.medal} alt={`${player.rank} medal`} className="w-full h-full object-contain" />
+        <div className="flex justify-center items-end space-x-8 mb-6">
+          {topPlayers.length > 1 && (
+            <div className="flex flex-col items-center p-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img src={topPlayers[1].medal} alt="2nd medal" className="w-full h-full object-contain" />
               </div>
-              <p className="text-lg mt-4 font-bold text-black">{player.username} {player.highestScore}</p>
+              <p className="text-lg font-bold text-black">{topPlayers[1].username}</p>
+              <p className="text-lg font-bold text-black">{topPlayers[1].highestScore}</p>
             </div>
-          ))}
+          )}
+          {topPlayers.length > 0 && (
+            <div className="flex flex-col items-center p-4">
+              <div className="w-28 h-28 flex items-center justify-center">
+                <img src={topPlayers[0].medal} alt="1st medal" className="w-full h-full object-contain" />
+              </div>
+              <p className="text-lg font-bold text-black">{topPlayers[0].username}</p>
+              <p className="text-lg font-bold text-black">{topPlayers[0].highestScore}</p>
+            </div>
+          )}
+          {topPlayers.length > 2 && (
+            <div className="flex flex-col items-center p-4">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img src={topPlayers[2].medal} alt="3rd medal" className="w-full h-full object-contain" />
+              </div>
+              <p className="text-lg font-bold text-black">{topPlayers[2].username}</p>
+              <p className="text-lg font-bold text-black">{topPlayers[2].highestScore}</p>
+            </div>
+          )}
         </div>
 
         {/* Other Leaderboard Players */}
