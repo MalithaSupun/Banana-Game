@@ -7,6 +7,7 @@ import LevelSelectionPage from "./LevelSelectionPage";
 import HomeButton from "../components/HomeButton";
 import Logout from "../components/LogoutButton";
 import WelcomePage from "./WelcomePage";
+import BananaNews from "./BananaNews";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import GameSoundLoop from "../assets/GameSoundLoop.mp3";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
@@ -175,6 +176,12 @@ function MainMenuPage() {
           >
             Play
           </button>
+          <button
+            className="bg-secondary text-black font-bold text-2xl py-5 rounded-lg shadow-lg w-full transition-transform duration-150 active:scale-90 hover:bg-green-600 hover:scale-105"
+            onClick={() => setActivePage("banananews")}
+          >
+            Banana News
+          </button>
         </div>
 
         {/* Mute/Unmute and Logout */}
@@ -225,6 +232,8 @@ function MainMenuPage() {
           />
         ) : activePage === "game" ? (
           <GamePage selectedLevel={selectedLevel} />
+        ) : activePage === "banananews" ? (
+          <BananaNews />
         ) : (
           <WelcomePage />
         )}

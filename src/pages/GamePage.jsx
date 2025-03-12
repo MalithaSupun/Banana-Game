@@ -173,7 +173,7 @@ function GamePage({ selectedLevel }) {
     <div className="flex flex-col items-start justify-start h-full w-full bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
       <div className="bg-red-200 p-4 rounded-lg mb-6 w-fit text-center">
         <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3 capitalize">
-          {selectedLevel} level
+          {selectedLevel} Level
         </h2>
       </div>
 
