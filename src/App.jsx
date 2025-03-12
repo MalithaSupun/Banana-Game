@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import MainMenuPage from "./pages/MainMenuPage";
+import BananaNews from "./pages/BananaNews";
 import InstructionsPage from "./pages/InstructionsPage";
 import LeaderBoardPage from "./pages/LeaderBoardPage";
 import WelcomePage from "./pages/WelcomePage";
@@ -68,6 +69,14 @@ function App() {
           element={
             <PrivateRoute>
               <GamePage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/banananews" 
+          element={
+            <PrivateRoute>
+              <BananaNews />
             </PrivateRoute>
           } 
         />

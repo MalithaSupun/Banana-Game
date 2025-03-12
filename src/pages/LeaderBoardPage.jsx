@@ -44,7 +44,7 @@ function LeaderBoardPage() {
       {/* Header Section */}
       <div className="bg-primary p-4 rounded-lg mb-6 w-fit text-left">
         <h2 className="text-6xl font-bold text-red-600 italic font-dancingScript p-3">
-          Leader board
+          Leader Board
         </h2>
       </div>
 
