@@ -44,7 +44,7 @@ function MainMenuPage() {
         setUser({ username: currentUser.displayName || "User" });
 
         // Set up a real-time listener for the score
-        const userDocRef = doc(db, "scores", currentUser.uid);
+        const userDocRef = doc(db, "scores", currentUser.displayName);
         const unsubscribeScore = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
             setScore(docSnap.data().highestScore || 0);

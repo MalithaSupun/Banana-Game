@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../services/firebase"; // Import Firebase Firestore instance
+import { collection, getDocs } from "firebase/firestore";
 import onestplace from "../assets/1stplace.png";
 import secondplace from "../assets/2ndplace.png";
 import thirdplace from "../assets/3rdplace.png";
 
 function LeaderBoardPage() {
-  // Sample leaderboard data
-  const topPlayers = [
-    { rank: 2, name: "PLAYER", score: 90000, medal: secondplace }, 
-    { rank: 1, name: "PLAYER", score: 100000, medal: onestplace }, 
-    { rank: 3, name: "PLAYER", score: 70000, medal: thirdplace }, 
-  ];
+  const [players, setPlayers] = useState([]);
 
-  const otherPlayers = [
-    { rank: 4, name: "PLAYER", score: 60000 },
-    { rank: 5, name: "PLAYER", score: 55000 },
-    { rank: 6, name: "PLAYER", score: 52000 },
-    { rank: 7, name: "PLAYER", score: 49000 },
-  ];
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "scores"));
+        let fetchedPlayers = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          username: doc.data().username, // Get username field
+          highestScore: doc.data().highestScore, // Get highestScore field
+        }));
+
+        // Sort players by highestScore in descending order
+        fetchedPlayers.sort((a, b) => b.highestScore - a.highestScore);
+
+        setPlayers(fetchedPlayers);
+      } catch (error) {
+        console.error("Error fetching leaderboard:", error);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  // Top 3 players
+  const topPlayers = players.slice(0, 3).map((player, index) => ({
+    ...player,
+    medal: index === 0 ? onestplace : index === 1 ? secondplace : thirdplace,
+  }));
+
+  // Remaining players
+  const otherPlayers = players.slice(3);
 
   return (
     <div className="flex flex-col items-start justify-start h-full w-full bg-gray-300 p-6 overflow-hidden bg-opacity-70 rounded-3xl">
@@ -32,14 +53,11 @@ function LeaderBoardPage() {
         {/* Top 3 Players */}
         <div className="flex justify-center items-center space-x-14 mb-6">
           {topPlayers.map((player, index) => (
-            <div key={index} className="flex flex-col items-center p-7 rounded-full">
-              <div
-                className={`w-${player.rank === 1 ? "24" : "20"} h-${player.rank === 1 ? "24" : "24"} flex items-center justify-center`} // Apply conditional size for 2nd and 3rd place
-              >
-                {/* Display the medal image */}
+            <div key={player.id} className="flex flex-col items-center p-7 rounded-full">
+              <div className={`w-${index === 0 ? "24" : "20"} h-${index === 0 ? "24" : "24"} flex items-center justify-center`}>
                 <img src={player.medal} alt={`${player.rank} medal`} className="w-full h-full object-contain" />
               </div>
-              <p className="text-lg mt-4 font-bold text-black">{player.name} {player.score}</p>
+              <p className="text-lg mt-4 font-bold text-black">{player.username} {player.highestScore}</p>
             </div>
           ))}
         </div>
@@ -47,16 +65,13 @@ function LeaderBoardPage() {
         {/* Other Leaderboard Players */}
         <div className="p-4 space-y-4 w-full">
           {otherPlayers.map((player, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full"
-            >
+            <div key={player.id} className="flex justify-between items-center bg-gray-300 p-3 rounded-lg shadow-md w-full">
               <div className="flex items-center space-x-3">
-                <span className="text-xl font-bold">#{player.rank}</span>
+                <span className="text-xl font-bold">#{index + 4}</span>
                 <span className="text-2xl">🧑‍🎓</span>
-                <span className="text-xl font-bold">{player.name}</span>
+                <span className="text-xl font-bold">{player.username}</span>
               </div>
-              <span className="text-xl font-bold">{player.score.toLocaleString()}</span>
+              <span className="text-xl font-bold">{player.highestScore.toLocaleString()}</span>
             </div>
           ))}
         </div>

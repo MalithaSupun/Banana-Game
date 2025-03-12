@@ -41,10 +41,17 @@ function GamePage({ selectedLevel }) {
 
   // Function to save score in Firebase
   const saveScore = async (scoreToAdd) => {
-    const user = auth.currentUser; // Get current logged-in user
-    if (!user) return;
-
-    const userRef = doc(db, "scores", user.uid);
+  const user = auth.currentUser; // Get current logged-in user
+  if (!user) return;
+  
+  const username = user.displayName; // Get the user's display name
+  const userId = user.uid; // Get the user's unique ID
+  if (!username) {
+    console.error("User does not have a display name.");
+    return;
+  }
+  
+  const userRef = doc(db, "scores", username);
 
     try {
       const userDoc = await getDoc(userRef);
@@ -54,7 +61,11 @@ function GamePage({ selectedLevel }) {
         newScore += userDoc.data().highestScore || 0;
       }
 
-      await setDoc(userRef, { highestScore: newScore });
+      await setDoc(userRef, { 
+        highestScore: newScore,
+        username: username,
+        userId: userId
+      });
       setCurrentScore(newScore); // Update local state
     } catch (error) {
       console.error("Error saving score:", error);
