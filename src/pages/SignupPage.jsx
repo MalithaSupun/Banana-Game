@@ -17,8 +17,32 @@ function SignupPage() {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
+    // Validate email format
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    // Validate password match
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    // Password validation: minimum 6 characters, maximum 12 characters, must include a special character, number, and uppercase letter
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#])[A-Za-z0-9@#]{6,12}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error("Password must be between 6 and 12 characters and include at least one uppercase letter, one number, and one special character (@ or #).", {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -44,7 +68,17 @@ function SignupPage() {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        alert(`Error: ${errorMessage}`);
+        if (errorMessage.includes("email already in use")) {
+          toast.error("This email is already registered.", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          toast.error(errorMessage, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
       });
   };
 
