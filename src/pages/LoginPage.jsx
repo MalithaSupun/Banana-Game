@@ -4,8 +4,14 @@ import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
+import GoogleLogo from "../assets/GoogleLogo.png";
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
@@ -21,7 +27,7 @@ function LoginPage() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        
+
         // Store the signed-in email in localStorage
         localStorage.setItem("savedEmail", user.email);
 
@@ -29,12 +35,45 @@ function LoginPage() {
         user.getIdToken().then((token) => {
           localStorage.setItem("authToken", token); // Store the token in local storage
           localStorage.setItem("userEmail", user.email); // Optionally store email
-  
-          toast.success("Successfully logged in!", { 
+
+          toast.success("Successfully logged in!", {
             position: "top-center",
             autoClose: 3000,
           });
-  
+
+          navigate("/mainmenu"); // Redirect to the main menu
+        });
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+
+        // Store the signed-in email in localStorage
+        localStorage.setItem("savedEmail", user.email);
+
+        // Get the authentication token
+        user.getIdToken().then((token) => {
+          localStorage.setItem("authToken", token); // Store the token in local storage
+          localStorage.setItem("userEmail", user.email); // Optionally store email
+          localStorage.setItem("username", user.displayName); // Store the username
+
+          toast.success("Successfully logged in with Google!", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+
           navigate("/mainmenu"); // Redirect to the main menu
         });
       })
@@ -83,6 +122,13 @@ function LoginPage() {
           className="bg-secondary text-black font-bold text-xl px-6 py-3 rounded-lg mt-12 shadow-lg font-dancingScript"
         >
           Log-In
+        </button>
+        <button
+          onClick={handleGoogleLogin}
+          className="bg-white text-white font-bold text-xl px-6 py-3 rounded-lg mt-6 shadow-lg flex items-center justify-center font-dancingScript"
+        >
+          {/* Google Logo */}
+          <img src={GoogleLogo} alt="Google Logo" className="w-8 h-8" />
         </button>
         <p className="mt-4 text-black">
           Don't have an account?
