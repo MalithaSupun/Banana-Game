@@ -23,6 +23,30 @@ function LoginPage() {
   }, [email]);
 
   const handleLogin = () => {
+    if (!email) {
+      toast.error("Please enter your email.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (!emailRegex.test(email)) {
+    toast.error("Please enter a valid email address.", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+    return;
+  }
+
+    if (!password) {
+      toast.error("Please enter your password.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
