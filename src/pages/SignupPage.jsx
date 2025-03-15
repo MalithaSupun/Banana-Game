@@ -4,9 +4,10 @@ import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
 import { useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"; 
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
 import { auth } from "../services/firebase"; 
 import { toast } from "react-toastify"; // Import toast
+import GoogleLogo from "../assets/GoogleLogo.png";
 
 function SignupPage() {
   const [username, setUsername] = useState("");
@@ -32,6 +33,33 @@ function SignupPage() {
         }).then(() => {
           // Successfully updated user profile
           toast.success(`${username} successfully signed up!`, { // Show toast message
+            position: "top-center",
+            autoClose: 3000, // Auto close after 3 seconds
+          });
+          navigate("/login"); // Navigate to login page after successful sign-up
+        }).catch((error) => {
+          const errorMessage = error.message;
+          alert(`Error updating profile: ${errorMessage}`);
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        alert(`Error: ${errorMessage}`);
+      });
+  };
+
+  const handleGoogleSignUp = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        
+        // Update the user's profile with the username
+        updateProfile(user, {
+          displayName: user.displayName, // Set the displayName to the user's name from Google
+        }).then(() => {
+          // Successfully updated user profile
+          toast.success(`${user.displayName} successfully signed up with Google!`, { // Show toast message
             position: "top-center",
             autoClose: 3000, // Auto close after 3 seconds
           });
@@ -104,6 +132,17 @@ function SignupPage() {
           className="bg-[#77C15E] text-[#4E2500] font-bold text-xl px-6 py-3 rounded-lg mt-6 shadow-lg font-dancingScript"
         >
           Sign-Up
+        </button>
+        <button
+          onClick={handleGoogleSignUp}
+          className="bg-white text-white font-bold text-xl px-6 py-3 rounded-lg mt-6 shadow-lg flex items-center justify-center gap-4 font-dancingScript"
+        >
+          {/* Google Logo */}
+          <img 
+            src={GoogleLogo}
+            alt="Google Logo" 
+            className="w-6 h-6" 
+          />
         </button>
         <p className="mt-4 text-black">
           Already have an account?
