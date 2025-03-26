@@ -18,7 +18,7 @@ function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
-  const [resetEmail, setResetEmail] = useState(""); // Email state for reset
+  const [resetEmail, setResetEmail] = useState(localStorage.getItem("savedEmail") || ""); // Initialize with saved email
   const navigate = useNavigate();
 
   useEffect(() => {
