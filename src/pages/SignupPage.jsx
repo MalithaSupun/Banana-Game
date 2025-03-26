@@ -116,7 +116,7 @@ function SignupPage() {
     setLoading(true); // Show the loading screen
     setTimeout(() => {
       navigate("/login"); // Navigate to the login page after a delay
-    }, 1000); // Optional: Delay to simulate loading
+    }, 200); // Optional: Delay to simulate loading
   };
 
   return (
