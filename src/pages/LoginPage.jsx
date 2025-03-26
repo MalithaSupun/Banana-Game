@@ -12,7 +12,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
-import GoogleLogo from "../assets/GoogleLogo.png";
+import GoogleLogo from "../assets/Googlelogo.png";
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");

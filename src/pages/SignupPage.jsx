@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
 import { auth } from "../services/firebase"; 
 import { toast } from "react-toastify"; // Import toast
-import GoogleLogo from "../assets/GoogleLogo.png";
+import GoogleLogo from "../assets/Googlelogo.png";
 
 function SignupPage() {
   const [username, setUsername] = useState("");
