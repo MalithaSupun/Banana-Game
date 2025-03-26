@@ -4,6 +4,7 @@ import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
 import { useNavigate } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom"; // Updated import
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; 
 import { auth } from "../services/firebase"; 
 import { toast } from "react-toastify"; // Import toast
@@ -114,7 +115,7 @@ function SignupPage() {
   const handleLoginClick = () => {
     setLoading(true); // Show the loading screen
     setTimeout(() => {
-      navigate("/login"); // Navigate to the login page after a delay
+      navigate("#/login"); // Navigate to the login page after a delay using hash-based routing
     }, 1000); // Optional: Delay to simulate loading
   };
 
