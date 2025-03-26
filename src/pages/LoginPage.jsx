@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/GoogleLogo.png";
@@ -16,6 +17,8 @@ import GoogleLogo from "../assets/GoogleLogo.png";
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
   const [password, setPassword] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
+  const [resetEmail, setResetEmail] = useState(""); // Email state for reset
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,14 +33,14 @@ function LoginPage() {
       });
       return;
     }
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (!emailRegex.test(email)) {
-    toast.error("Please enter a valid email address.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-    return;
-  }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
 
     if (!password) {
       toast.error("Please enter your password.", {
@@ -67,6 +70,44 @@ function LoginPage() {
 
           navigate("/mainmenu"); // Redirect to the main menu
         });
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      });
+  };
+
+  const openModal = () => setIsModalOpen(true); // Open modal
+  const closeModal = () => setIsModalOpen(false); // Close modal
+
+  const handleResetPassword = () => {
+    if (!resetEmail) {
+      toast.error("Please enter your email.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(resetEmail)) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, resetEmail)
+      .then(() => {
+        toast.success("Password reset email sent!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        closeModal(); // Close modal after sending the email
       })
       .catch((error) => {
         toast.error(error.message, {
@@ -160,12 +201,45 @@ function LoginPage() {
             Sign Up
           </a>
         </p>
+        <p className="mt-4 text-black">
+          <a href="#" onClick={openModal} className="text-blue-500 ml-1">
+            Forgot Password?
+          </a>
+        </p>
       </div>
       <img
         src={Banana}
         alt="Bottom Right"
         className="absolute bottom-8 right-9 min-w-md min-h-96 object-contain"
       />
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+            <h2 className="text-xl font-bold mb-4">Reset Your Password</h2>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              className="w-full p-3 rounded-lg border border-gray-300 mb-4"
+            />
+            <button
+              onClick={handleResetPassword}
+              className="w-full bg-secondary text-black font-bold text-xl px-6 py-3 rounded-lg mb-4"
+            >
+              Send Reset Link
+            </button>
+            <button
+              onClick={closeModal}
+              className="w-full bg-red-500 text-white font-bold text-xl px-6 py-3 rounded-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
