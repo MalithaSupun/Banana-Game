@@ -115,7 +115,7 @@ function SignupPage() {
   const handleLoginClick = () => {
     setLoading(true); // Show the loading screen
     setTimeout(() => {
-      navigate("#/login"); // Navigate to the login page after a delay using hash-based routing
+      navigate("/login"); // Navigate to the login page after a delay
     }, 1000); // Optional: Delay to simulate loading
   };
 
@@ -190,9 +190,9 @@ function SignupPage() {
         </button>
         <p className="mt-4 text-black">
           Already have an account?
-          <button onClick={handleLoginClick} className="text-blue-500 ml-1 bg-transparent border-none">
+          <a onClick={handleLoginClick} className="text-blue-500 ml-1">
             Log In
-          </button>
+          </a>
         </p>
       </div>
       {loading && (
