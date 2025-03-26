@@ -3,7 +3,7 @@ import LoginBg from "../assets/LoginBg.png";
 import BananaTitleBox from "../components/BananaTitleBox";
 import Banana from "../assets/LoginpageRightbanana.png";
 import BananaRight from "../assets/LoginPageThribleBanana.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -13,12 +13,14 @@ import {
 } from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
+import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
   const [password, setPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
   const [resetEmail, setResetEmail] = useState(localStorage.getItem("savedEmail") || ""); // Initialize with saved email
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -150,11 +152,34 @@ function LoginPage() {
       });
   };
 
+  const handleSignUpClick = () => {
+    setLoading(true); // Set loading to true when the user clicks the link
+    setTimeout(() => {
+      navigate("/signup"); // Redirect to the sign-up page after loading
+    }, 1000); // Optionally add a delay to simulate loading
+  };
+
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen w-full bg-cover bg-center"
       style={{ backgroundImage: `url(${LoginBg})` }}
     >
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="green"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              visible={true}
+            />
+            <p className="text-lg font-semibold text-black mt-4">Loading...</p>
+          </div>
+        </div>
+      )}
       <BananaTitleBox />
       <img
         src={BananaRight}
@@ -197,7 +222,7 @@ function LoginPage() {
         </button>
         <p className="mt-4 text-black">
           Don't have an account?
-          <a href="/signup" className="text-blue-500 ml-1">
+          <a onClick={handleSignUpClick} className="text-blue-500 ml-1">
             Sign Up
           </a>
         </p>

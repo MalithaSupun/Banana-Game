@@ -19,6 +19,7 @@
     "react": "^19.0.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
+    "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^7.1.5",
     "react-toastify": "^11.0.3",
     "react-use": "^17.6.0"
