@@ -244,3 +244,5 @@ function GamePage({ selectedLevel }) {
 }
 
 export default GamePage;
+
+// I learned about API fetching and similar parts from lab sessions.

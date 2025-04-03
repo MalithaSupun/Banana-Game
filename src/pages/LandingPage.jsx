@@ -141,3 +141,4 @@ function LandingPage() {
 
 export default LandingPage;
 
+//falling bananas - Get from the earlier coded website ,other i did from my knowledge
