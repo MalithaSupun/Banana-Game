@@ -9,14 +9,13 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithPopup
 import { auth } from "../services/firebase"; 
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
-import { ThreeDots } from 'react-loader-spinner'; // Import loader spinner
 
 function SignupPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+
   const navigate = useNavigate();
 
   const handleSignUp = () => {
@@ -113,10 +112,7 @@ function SignupPage() {
   };
 
   const handleLoginClick = () => {
-    setLoading(true); // Show the loading screen
-    setTimeout(() => {
-      navigate("/login"); // Navigate to the login page after a delay
-    }, 200); // Optional: Delay to simulate loading
+    navigate("/login"); // Navigate to the login page directly
   };
 
   return (
@@ -195,22 +191,6 @@ function SignupPage() {
           </a>
         </p>
       </div>
-      {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color="green"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              visible={true}
-            />
-            <p className="text-lg font-semibold text-black mt-4">Loading...</p>
-          </div>
-        </div>
-      )}
       <img
         src={Banana}
         alt="Bottom Right"

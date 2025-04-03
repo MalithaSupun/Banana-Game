@@ -13,7 +13,6 @@ import {
 } from "firebase/auth";
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
-import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
@@ -169,22 +168,6 @@ function LoginPage() {
       className="flex flex-col items-center justify-center min-h-screen w-full bg-cover bg-center"
       style={{ backgroundImage: `url(${LoginBg})` }}
     >
-      {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color="green"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              visible={true}
-            />
-            <p className="text-lg font-semibold text-black mt-4">Loading...</p>
-          </div>
-        </div>
-      )}
       <BananaTitleBox />
       <img
         src={BananaRight}
@@ -275,6 +258,5 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
 
 // i coded this my knowledge and experience. some error fixed using chatgpt and get referce and error search from google and get answer from stackoverflow
