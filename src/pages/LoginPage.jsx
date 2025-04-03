@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
 import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
@@ -152,11 +153,10 @@ function LoginPage() {
       });
   };
 
-  const handleSignUpClick = () => {
-    setLoading(true); // Set loading to true when the user clicks the link
-    setTimeout(() => {
-      navigate("/signup"); // Redirect to the sign-up page after loading
-    }, 200); // Optionally add a delay to simulate loading
+  const handleSignUpClick = (e) => {
+    e.preventDefault(); // Prevent default anchor behavior
+    setLoading(true);
+    navigate("/signup");
   };
 
   return (
@@ -221,11 +221,11 @@ function LoginPage() {
           <img src={GoogleLogo} alt="Google Logo" className="w-8 h-8" />
         </button>
         <p className="mt-4 text-black">
-          Don't have an account?
-          <a onClick={handleSignUpClick} className="text-blue-500 ml-1">
-            Sign Up
-          </a>
-        </p>
+  Don't have an account?
+  <a href="#/signup" onClick={handleSignUpClick} className="text-blue-500 ml-1 cursor-pointer">
+    Sign Up
+  </a>
+</p>
         <p className="mt-4 text-black">
           <a href="#" onClick={openModal} className="text-blue-500 ml-1">
             Forgot Password?
