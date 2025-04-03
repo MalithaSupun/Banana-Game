@@ -215,7 +215,7 @@ function LoginPage() {
           </button>
           </p>
         <p className="mt-4 text-black">
-          <a href="#" onClick={openModal} className="text-blue-500 ml-1">
+          <a href="" onClick={openModal} className="text-blue-500 ml-1">
             Forgot Password?
           </a>
         </p>
