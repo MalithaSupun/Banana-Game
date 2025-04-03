@@ -209,11 +209,11 @@ function LoginPage() {
           <img src={GoogleLogo} alt="Google Logo" className="w-8 h-8" />
         </button>
         <p className="mt-4 text-black">
-          Don't have an account?    </p>
+          Don't have an account?    
           <button onClick={() => navigate("/signup")}className="text-blue-500 ml-1">
             Sign Up
           </button>
-    
+          </p>
         <p className="mt-4 text-black">
           <a href="#" onClick={openModal} className="text-blue-500 ml-1">
             Forgot Password?
