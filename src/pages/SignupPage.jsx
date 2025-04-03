@@ -100,7 +100,7 @@ function SignupPage() {
             position: "top-center",
             autoClose: 3000, // Auto close after 3 seconds
           });
-          navigate("#/login"); // Navigate to login page after successful sign-up
+          navigate("/login"); // Navigate to login page after successful sign-up
         }).catch((error) => {
           const errorMessage = error.message;
           alert(`Error updating profile: ${errorMessage}`);
@@ -190,9 +190,9 @@ function SignupPage() {
         </button>
         <p className="mt-4 text-black">
           Already have an account?
-          <button onClick={handleLoginClick} className="text-blue-500 ml-1">
+          <a onClick={handleLoginClick} className="text-blue-500 ml-1">
             Log In
-          </button>
+          </a>
         </p>
       </div>
       {loading && (

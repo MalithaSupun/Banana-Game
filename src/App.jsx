@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StartingPage from "./pages/StartingPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -16,7 +16,7 @@ import PrivateRoute from "./routes/PrivateRoute"; // Import PrivateRoute
 
 function App() {
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<StartingPage />} />
         <Route path="/landing" element={<LandingPage />} />
@@ -82,7 +82,7 @@ function App() {
         />
       </Routes>
       <ToastContainer />
-    </HashRouter>
+    </Router>
   );
 }
 
