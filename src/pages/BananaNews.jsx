@@ -63,3 +63,6 @@ const response = await fetch('https://newsdata.io/api/1/news?apikey=pub_74281a8d
 }
 
 export default BananaNews;
+
+// i get apikey from https://newsdata.io/login
+// and i use this api to get news data

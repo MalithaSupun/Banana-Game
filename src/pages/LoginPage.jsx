@@ -14,7 +14,6 @@ import {
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
 import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
-import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
@@ -153,10 +152,11 @@ function LoginPage() {
       });
   };
 
-  const handleSignUpClick = (e) => {
-    e.preventDefault(); // Prevent default anchor behavior
-    setLoading(true);
-    navigate("/signup");
+  const handleSignUpClick = () => {
+    setLoading(true); // Set loading to true when the user clicks the link
+    setTimeout(() => {
+      navigate("/signup"); // Redirect to the sign-up page after loading
+    }, 200); // Optionally add a delay to simulate loading
   };
 
   return (
@@ -270,3 +270,6 @@ function LoginPage() {
 }
 
 export default LoginPage;
+
+
+// i coded this my knowledge and experience. some error fixed using chatgpt and get referce and error search from google and get answer from stackoverflow

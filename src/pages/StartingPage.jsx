@@ -114,3 +114,7 @@ export default function StartingPage() {
     </div>
   );
 }
+
+
+//falling flowers - Get from the earlier coded website ,other i did from my knowledge
+// others i did from my knowledge 

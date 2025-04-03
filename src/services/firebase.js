@@ -18,3 +18,5 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export { auth, db };
+
+// This api key get from Firebase also doing

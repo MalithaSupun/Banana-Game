@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes, HashRouter } from "react-router-dom"; // Use HashRouter
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StartingPage from "./pages/StartingPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -16,7 +16,7 @@ import PrivateRoute from "./routes/PrivateRoute"; // Import PrivateRoute
 
 function App() {
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<StartingPage />} />
         <Route path="/landing" element={<LandingPage />} />
@@ -24,66 +24,69 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         {/* Private Routes */}
-        <Route
-          path="/mainmenu"
+        <Route 
+          path="/mainmenu" 
           element={
             <PrivateRoute>
               <MainMenuPage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/instructions"
+        <Route 
+          path="/instructions" 
           element={
             <PrivateRoute>
               <InstructionsPage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/leaderboard"
+        <Route 
+          path="/leaderboard" 
           element={
             <PrivateRoute>
               <LeaderBoardPage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/welcome"
+        <Route 
+          path="/welcome" 
           element={
             <PrivateRoute>
               <WelcomePage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/levelselection"
+        <Route 
+          path="/levelselection" 
           element={
             <PrivateRoute>
               <LevelSelectionPage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/game"
+        <Route 
+          path="/game" 
           element={
             <PrivateRoute>
               <GamePage />
             </PrivateRoute>
-          }
+          } 
         />
-        <Route
-          path="/banananews"
+        <Route 
+          path="/banananews" 
           element={
             <PrivateRoute>
               <BananaNews />
             </PrivateRoute>
-          }
+          } 
         />
       </Routes>
       <ToastContainer />
-      </HashRouter>
+    </Router>
   );
 }
 
 export default App;
+
+
+// this code by my own knowledge and experience. I have not copied it from any source.

@@ -131,3 +131,5 @@ function LeaderBoardPage() {
 }
 
 export default LeaderBoardPage;
+
+//this code by me fix some error uning chatgpt when i run the code
