@@ -190,9 +190,9 @@ function SignupPage() {
         </button>
         <p className="mt-4 text-black">
           Already have an account?
-          <a onClick={handleLoginClick} className="text-blue-500 ml-1">
+          <button onClick={handleLoginClick} className="text-blue-500 ml-1">
             Log In
-          </a>
+          </button>
         </p>
       </div>
       {loading && (
