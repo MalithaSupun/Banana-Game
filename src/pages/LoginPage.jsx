@@ -222,7 +222,7 @@ function LoginPage() {
         </button>
         <p className="mt-4 text-black">
           Don't have an account?
-          <a onClick={handleSignUpClick} className="text-blue-500 ml-1">
+          <a onClick={() => navigate("/login")}className="text-blue-500 ml-1">
             Sign Up
           </a>
         </p>
