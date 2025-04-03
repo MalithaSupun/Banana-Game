@@ -14,7 +14,7 @@ import {
 import { toast } from "react-toastify"; // Import toast
 import GoogleLogo from "../assets/Googlelogo.png";
 import { ThreeDots } from 'react-loader-spinner'; // Import the spinner
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState(localStorage.getItem("savedEmail") || "");
