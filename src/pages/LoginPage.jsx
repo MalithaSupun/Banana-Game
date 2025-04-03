@@ -152,6 +152,11 @@ function LoginPage() {
       });
   };
 
+  const handleNavigate = () => {
+    console.log("Navigating to sign up...");
+    navigate("/signup");
+  };
+
   const handleSignUpClick = () => {
     setLoading(true); // Set loading to true when the user clicks the link
     setTimeout(() => {
@@ -221,11 +226,11 @@ function LoginPage() {
           <img src={GoogleLogo} alt="Google Logo" className="w-8 h-8" />
         </button>
         <p className="mt-4 text-black">
-          Don't have an account?
+          Don't have an account?    </p>
           <button onClick={() => navigate("/signup")}className="text-blue-500 ml-1">
             Sign Up
           </button>
-        </p>
+    
         <p className="mt-4 text-black">
           <a href="#" onClick={openModal} className="text-blue-500 ml-1">
             Forgot Password?
