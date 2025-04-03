@@ -155,7 +155,7 @@ function LoginPage() {
   const handleSignUpClick = () => {
     setLoading(true); // Set loading to true when the user clicks the link
     setTimeout(() => {
-      navigate("/signup"); // Redirect to the sign-up page after loading
+      navigate("#/signup"); // Redirect to the sign-up page after loading
     }, 200); // Optionally add a delay to simulate loading
   };
 

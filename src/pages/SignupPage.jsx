@@ -100,7 +100,7 @@ function SignupPage() {
             position: "top-center",
             autoClose: 3000, // Auto close after 3 seconds
           });
-          navigate("/login"); // Navigate to login page after successful sign-up
+          navigate("#/login"); // Navigate to login page after successful sign-up
         }).catch((error) => {
           const errorMessage = error.message;
           alert(`Error updating profile: ${errorMessage}`);
